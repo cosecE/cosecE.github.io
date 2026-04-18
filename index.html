@@ -626,6 +626,202 @@
   footer a { color: var(--muted); text-decoration: none; }
   footer a:hover { color: var(--green-light); }
 
+  /* ── CHATBOT ── */
+  #chat-fab {
+    position: fixed;
+    z-index: 1000;
+    width: 52px;
+    height: 52px;
+    background: var(--card);
+    border: 1px solid var(--green);
+    color: var(--green-light);
+    font-family: var(--font-mono);
+    font-size: 22px;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 18px rgba(99,153,34,0.18);
+    user-select: none;
+  }
+  #chat-fab:hover { background: var(--green-dim); box-shadow: 0 0 28px rgba(99,153,34,0.35); }
+  #chat-fab.dragging { cursor: grabbing; }
+
+  #chat-teaser {
+    position: fixed;
+    z-index: 999;
+    background: var(--card2);
+    border: 1px solid var(--border-bright);
+    padding: 0.6rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--green-light);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  #chat-teaser.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #chat-teaser::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    right: 18px;
+    width: 10px;
+    height: 10px;
+    background: var(--card2);
+    border-right: 1px solid var(--border-bright);
+    border-bottom: 1px solid var(--border-bright);
+    transform: rotate(45deg);
+  }
+
+  #chat-panel {
+    position: fixed;
+    z-index: 1000;
+    width: 360px;
+    max-width: calc(100vw - 2rem);
+    background: var(--card);
+    border: 1px solid var(--border-bright);
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    animation: fadeUp 0.2s ease both;
+  }
+  #chat-panel.open { display: flex; }
+
+  .chat-header {
+    padding: 0.85rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card2);
+    cursor: grab;
+    user-select: none;
+  }
+  .chat-header.dragging { cursor: grabbing; }
+  .chat-header-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--green-light);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .chat-header-title::before { content: '> '; }
+  .chat-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: color 0.2s;
+  }
+  .chat-close:hover { color: var(--green-light); }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-height: 320px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--green-dim) transparent;
+  }
+
+  .chat-msg {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.7;
+    max-width: 86%;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--border);
+  }
+  .chat-msg.bot {
+    background: var(--card2);
+    color: #ccc;
+    align-self: flex-start;
+    border-color: var(--border-bright);
+  }
+  .chat-msg.bot::before {
+    content: '[KAUSH_BOT]  ';
+    display: block;
+    font-size: 10px;
+    color: var(--green);
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .chat-msg.user {
+    background: var(--green-faint);
+    color: var(--text);
+    align-self: flex-end;
+    border-color: var(--green-dim);
+  }
+
+  .chat-suggestions {
+    padding: 0.5rem 1rem 0.6rem;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+    background: var(--card2);
+  }
+  .chat-sug {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 9px;
+    border: 1px solid var(--border-bright);
+    color: var(--green-light);
+    background: none;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background 0.15s;
+  }
+  .chat-sug:hover { background: var(--green-faint); }
+
+  .chat-input-row {
+    display: flex;
+    border-top: 1px solid var(--border);
+  }
+  .chat-input {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+    background: var(--card);
+    border: none;
+    padding: 0.75rem 1rem;
+    outline: none;
+    letter-spacing: 0.5px;
+  }
+  .chat-input::placeholder { color: #444; }
+  .chat-send {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0.75rem 1.1rem;
+    background: var(--green-dim);
+    border: none;
+    border-left: 1px solid var(--border);
+    color: var(--green-light);
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+  }
+  .chat-send:hover { background: var(--green); color: #000; }
+
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(18px); }
@@ -661,7 +857,7 @@
       <span class="accent">Kaushiki Singh</span>
       <span class="hero-cursor"></span>
     </h1>
-    <div class="hero-avail"><span class="dot"></span> Available for internships &amp; research</div>
+    <div class="hero-avail"><span class="dot"></span> Available for summer internships &amp; research · May 15 – Aug 30</div>
     <p class="hero-bio">
       Data Scientist in training with a Software Engineering background. Interested in LLMs and building responsible AI systems. Passionate about solving real world problems.
     </p>
@@ -913,15 +1109,36 @@
         <div class="contact-lbl">GitHub</div>
         <div class="contact-val"><a href="https://github.com/cosecE" target="_blank">github.com/cosecE</a></div>
       </div>
-      <div class="contact-item">
-        <div class="contact-lbl">Location</div>
-        <div class="contact-val">New York, NY</div>
-      </div>
     </div>
   </div>
 </section>
 
 <footer>© 2025 · Kaushiki Singh · <a href="mailto:ks4402@columbia.edu">ks4402@columbia.edu</a> · <a href="https://github.com/cosecE" target="_blank">GitHub</a> · <a href="https://linkedin.com/in/kaushikisingh" target="_blank">LinkedIn</a></footer>
+
+<!-- CHATBOT -->
+<div id="chat-teaser"></div>
+<button id="chat-fab" title="Drag or click to open chat">⌘</button>
+
+<div id="chat-panel">
+  <div class="chat-header">
+    <span class="chat-header-title">Ask [KAUSH_BOT]</span>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-suggestions" id="chatSuggestions">
+    <button class="chat-sug" onclick="sendSug('Help')">Help</button>
+    <button class="chat-sug" onclick="sendSug('How do I navigate the site?')">Navigate</button>
+    <button class="chat-sug" onclick="sendSug('Are you available for jobs?')">Available?</button>
+    <button class="chat-sug" onclick="sendSug('Tell me about your projects')">Projects</button>
+    <button class="chat-sug" onclick="sendSug('What are your skills?')">Skills</button>
+    <button class="chat-sug" onclick="sendSug('Tell me about your experience')">Experience</button>
+    <button class="chat-sug" onclick="sendSug('How can I contact you?')">Contact</button>
+  </div>
+  <div class="chat-input-row">
+    <input id="chatInput" class="chat-input" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send" onclick="sendChat()">↵</button>
+  </div>
+</div>
 
 <script>
 const projects = [
@@ -1254,6 +1471,364 @@ function toggleExtras(deg) {
 
 // init
 renderProjects();
+
+// ── CHATBOT ──────────────────────────────────────────────
+let chatOpen = false;
+let chatBooted = false;
+
+// Position state (pixels from top-left)
+const FAB_W = 52, FAB_H = 52, PANEL_W = 360, PANEL_H_EST = 480;
+let fabPos = { x: null, y: null }; // null = use default
+
+function initChatPosition() {
+  if (fabPos.x !== null) return;
+  const footer = document.querySelector('footer');
+  const footerH = footer ? footer.offsetHeight : 60;
+  fabPos.x = window.innerWidth  - FAB_W  - 32;
+  fabPos.y = window.innerHeight - FAB_H  - footerH - 20;
+  applyChatPosition();
+}
+
+function applyChatPosition(animate) {
+  const fab   = document.getElementById('chat-fab');
+  const panel = document.getElementById('chat-panel');
+  const navEl = document.querySelector('.nav');
+  const footEl = document.querySelector('footer');
+  const navH  = navEl  ? navEl.offsetHeight  : 0;
+  const footH = footEl ? footEl.offsetHeight : 0;
+  // Clamp fab inside viewport, excluding header and footer zones
+  fabPos.x = Math.max(0, Math.min(fabPos.x, window.innerWidth  - FAB_W));
+  fabPos.y = Math.max(navH, Math.min(fabPos.y, window.innerHeight - FAB_H - footH));
+
+  fab.style.transition = animate ? 'left 0.28s cubic-bezier(.4,0,.2,1), top 0.28s cubic-bezier(.4,0,.2,1)' : '';
+  fab.style.left = fabPos.x + 'px';
+  fab.style.top  = fabPos.y + 'px';
+  fab.style.right  = 'auto';
+  fab.style.bottom = 'auto';
+
+  // Position panel above/below the FAB depending on available space
+  const spaceAbove = fabPos.y;
+  const panelH = Math.min(PANEL_H_EST, window.innerHeight - FAB_H - 16);
+  let panelY = spaceAbove >= panelH + 8
+    ? fabPos.y - panelH - 8
+    : fabPos.y + FAB_H + 8;
+  let panelX = fabPos.x + FAB_W - PANEL_W;
+  panelX = Math.max(8, Math.min(panelX, window.innerWidth - PANEL_W - 8));
+  panel.style.transition = animate ? 'left 0.28s cubic-bezier(.4,0,.2,1), top 0.28s cubic-bezier(.4,0,.2,1)' : '';
+  panel.style.left   = panelX + 'px';
+  panel.style.top    = panelY + 'px';
+  panel.style.right  = 'auto';
+  panel.style.bottom = 'auto';
+}
+
+// Snap fab to nearest viewport edge, keeping y (or x) position along that edge
+function snapToEdge() {
+  const cx = fabPos.x + FAB_W / 2;
+  const cy = fabPos.y + FAB_H / 2;
+  const W  = window.innerWidth;
+  const H  = window.innerHeight;
+  const EDGE_PAD = 8;
+
+  const navEl = document.querySelector('.nav');
+  const footEl = document.querySelector('footer');
+  const navH  = navEl  ? navEl.offsetHeight  : 0;
+  const footH = footEl ? footEl.offsetHeight : 0;
+
+  const distLeft   = cx;
+  const distRight  = W - cx;
+  const distTop    = cy - navH;
+  const distBottom = H - footH - cy;
+  const nearest    = Math.min(distLeft, distRight, distTop, distBottom);
+
+  if (nearest === distLeft)        fabPos.x = EDGE_PAD;
+  else if (nearest === distRight)  fabPos.x = W - FAB_W - EDGE_PAD;
+  else if (nearest === distTop)    fabPos.y = navH + EDGE_PAD;
+  else                             fabPos.y = H - FAB_H - footH - EDGE_PAD;
+
+  applyChatPosition(true);
+  positionTeaser();
+}
+
+// Drag on FAB
+(function setupDrag() {
+  let dragging = false, startX, startY, origX, origY, moved = false;
+
+  function onDown(e) {
+    initChatPosition();
+    dragging = true; moved = false;
+    const pt = e.touches ? e.touches[0] : e;
+    startX = pt.clientX; startY = pt.clientY;
+    origX = fabPos.x;    origY = fabPos.y;
+    document.getElementById('chat-fab').classList.add('dragging');
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup',   onUp);
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend',  onUp);
+    e.preventDefault();
+  }
+
+  function onMove(e) {
+    if (!dragging) return;
+    const pt = e.touches ? e.touches[0] : e;
+    const dx = pt.clientX - startX, dy = pt.clientY - startY;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+    fabPos.x = origX + dx;
+    fabPos.y = origY + dy;
+    applyChatPosition();
+    e.preventDefault();
+  }
+
+  function onUp() {
+    dragging = false;
+    document.getElementById('chat-fab').classList.remove('dragging');
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup',   onUp);
+    document.removeEventListener('touchmove', onMove);
+    document.removeEventListener('touchend',  onUp);
+    if (!moved) {
+      toggleChat();
+    } else {
+      snapToEdge();
+    }
+  }
+
+  document.getElementById('chat-fab').addEventListener('mousedown',  onDown);
+  document.getElementById('chat-fab').addEventListener('touchstart', onDown, { passive: false });
+})();
+
+// Drag via panel header
+(function setupPanelDrag() {
+  let dragging = false, startX, startY, origX, origY;
+
+  function onDown(e) {
+    if (e.target.classList.contains('chat-close')) return;
+    initChatPosition();
+    dragging = true;
+    const pt = e.touches ? e.touches[0] : e;
+    startX = pt.clientX; startY = pt.clientY;
+    origX = fabPos.x;    origY = fabPos.y;
+    document.getElementById('chat-panel').querySelector('.chat-header').classList.add('dragging');
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup',   onUp);
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend',  onUp);
+    e.preventDefault();
+  }
+
+  function onMove(e) {
+    if (!dragging) return;
+    const pt = e.touches ? e.touches[0] : e;
+    fabPos.x = origX + (pt.clientX - startX);
+    fabPos.y = origY + (pt.clientY - startY);
+    applyChatPosition();
+    e.preventDefault();
+  }
+
+  function onUp() {
+    dragging = false;
+    document.getElementById('chat-panel').querySelector('.chat-header').classList.remove('dragging');
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup',   onUp);
+    document.removeEventListener('touchmove', onMove);
+    document.removeEventListener('touchend',  onUp);
+    snapToEdge();
+  }
+
+  document.getElementById('chat-panel').querySelector('.chat-header')
+    .addEventListener('mousedown',  onDown);
+  document.getElementById('chat-panel').querySelector('.chat-header')
+    .addEventListener('touchstart', onDown, { passive: false });
+})();
+
+window.addEventListener('resize', () => { if (fabPos.x !== null) { applyChatPosition(); positionTeaser(); } });
+
+// ── TEASER BUBBLE ─────────────────────────────────────────
+const teaserLines = [
+  '💬 Ask me anything!',
+  '⚡ Available May 15 – Aug 30',
+  '🔍 Explore Kaushiki\'s projects',
+  '📄 View experience & skills',
+  '📬 How to get in touch?',
+];
+let teaserIdx = 0;
+let teaserTimer = null;
+let teaserDismissed = false;
+
+function positionTeaser() {
+  const t = document.getElementById('chat-teaser');
+  const fab = document.getElementById('chat-fab');
+  const rect = fab.getBoundingClientRect();
+  t.style.right = (window.innerWidth - rect.right) + 'px';
+  t.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
+  t.style.left = 'auto';
+  t.style.top = 'auto';
+}
+
+function showTeaser() {
+  if (teaserDismissed || chatOpen) return;
+  const t = document.getElementById('chat-teaser');
+  initChatPosition();
+  positionTeaser();
+  t.textContent = teaserLines[teaserIdx % teaserLines.length];
+  teaserIdx++;
+  t.classList.add('visible');
+  teaserTimer = setTimeout(() => {
+    t.classList.remove('visible');
+    if (!teaserDismissed) teaserTimer = setTimeout(showTeaser, 4000);
+  }, 3500);
+}
+
+function dismissTeaser() {
+  teaserDismissed = true;
+  clearTimeout(teaserTimer);
+  document.getElementById('chat-teaser').classList.remove('visible');
+}
+
+// First appearance after 2.5 s, then cycles every ~7.5 s
+setTimeout(showTeaser, 2500);;
+
+function toggleChat() {
+  initChatPosition();
+  chatOpen = !chatOpen;
+  if (chatOpen) dismissTeaser();
+  const panel = document.getElementById('chat-panel');
+  panel.classList.toggle('open', chatOpen);
+  applyChatPosition();
+  if (chatOpen && !chatBooted) {
+    chatBooted = true;
+    botSay("Hello, World! I'm KAUSH. Ask me anything about Kaushiki's background, projects, skills, or availability. Type \"Help\" to see what I can answer or \"Navigate\" to learn how to explore the site.");
+  }
+  if (chatOpen) document.getElementById('chatInput').focus();
+}
+
+function botSay(text) {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg bot';
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function userSay(text) {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg user';
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sendSug(q) {
+  userSay(q);
+  botSay(getReply(q));
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = '';
+  userSay(q);
+  botSay(getReply(q));
+}
+
+function getReply(q) {
+  const t = q.toLowerCase();
+
+  // Navigation help
+  if (/navigate|navigation|how.*(use|work|site|website|page)|sections|menu|tabs|go to/.test(t)) {
+    return "This site has 5 sections accessible from the top nav bar: Home (intro & overview), Projects (13 projects with search & category filter), Experience (internships & research roles), About (education, coursework, skills), and Contact (email, LinkedIn, GitHub). Click any nav link to jump to that section. On the Projects page you can search by keyword or filter by category.";
+  }
+
+  // How to ask / what can you do
+  if (/how.*(ask|query|question|format)|what can (you|i ask|this bot)|^help$|commands|topics/.test(t)) {
+    return "Just type naturally! Here are some example questions you can ask:\n• \"What projects has she built?\"\n• \"Tell me about the Hera hackathon project\"\n• \"What are her skills?\"\n• \"Is she available for internships?\"\n• \"Tell me about her experience at ToneOp\"\n• \"How do I contact her?\"\n• \"What did she study at Columbia?\"\n• \"Tell me about her research paper\"\nYou can also use the quick-reply buttons below the chat.";
+  }
+
+  // Availability / hiring
+  if (/avail|hire|job|intern|open to|opportunit|summer|when can/.test(t)) {
+    return "Kaushiki is available for internships and research roles from May 15 through August 30. She's open to full-time roles as well after December 2026. Reach out at ks4402@columbia.edu.";
+  }
+
+  // Contact
+  if (/contact|email|reach|linkedin|github|connect/.test(t)) {
+    return "You can reach Kaushiki at ks4402@columbia.edu, on LinkedIn at linkedin.com/in/kaushikisingh, or on GitHub at github.com/cosecE. She's based in New York, NY.";
+  }
+
+  // Skills — checked before generic "about" to catch "tell me about her skills"
+  if (/skill|tech|stack|language|tool|framework|python|pytorch|langchain|faiss/.test(t)) {
+    return "Kaushiki's technical skills include: Python, PyTorch, HuggingFace, LangChain, scikit-learn, Pandas, FAISS, Spark, D3.js, Firebase, PostgreSQL, SQL, Java, C++, Swift, R, Git, and Linux/Unix. She focuses primarily on ML, NLP, and data science tooling.";
+  }
+
+  // Experience — checked before generic "about" to catch "tell me about her experience"
+  if (/experience|job history|toneop|fluid touch|asu lab|research assist/.test(t)) {
+    return "Kaushiki has 3 key experiences: (1) Software Engineer Intern at ToneOp (Mar–Jul 2025) — enhanced a RAG chatbot using TinyLLaMA + FAISS; (2) Research Assistant at ASU's Intelligent Data Infrastructure Lab (Dec 2023–Apr 2024) — co-authored a HotStorage 2024 Best Paper Award winner; (3) Android App Intern at Fluid Touch (Jun–Aug 2023) — built NoteShelf Stickers features in Java/Kotlin.";
+  }
+
+  // Research / paper — checked before generic "about" to catch "tell me about her research"
+  if (/paper|publication|hotstorage|usenix|rocksdb|award|best paper/.test(t)) {
+    return "Kaushiki co-authored the paper 'ELMo-Tune' at ASU's IDIL lab — a GPT-4–driven framework that autonomously tunes 150+ RocksDB LSM-KVS parameters. It won the HotStorage 2024 Best Paper Award and was presented at USENIX FAST '24. Read it at dl.acm.org/doi/10.1145/3655038.3665954.";
+  }
+
+  // Specific project lookups — checked before generic "about" to catch "tell me about Hera" etc.
+  if (/housellm|clinical|medical|report|constrained decoding/.test(t)) {
+    return "HouseLLM is an LLM-based diagnostic tool studying constrained decoding (soft, schema-based, and ontology-restricted) for structured clinical report generation. It includes hallucination detection metrics. Built in 2026 as a Columbia course project using Python, PyTorch, Transformers, and OpenAI API. It was themed around the famous show House M.D. due to its medical diagnosis focus!";
+  }
+  if (/hera|emotional|parent|safety layer|hackathon/.test(t)) {
+    return "Hera is an AI Emotional Safety Layer built at the Columbia Business School × AI Club Hackathon. It transforms digital behavioral signals into empathetic conversation guidance for parents using the Claude API and White Circle API. Live at hera-ai.streamlit.app.";
+  }
+  if (/electricity|forecast|sarimax|load/.test(t)) {
+    return "The Electricity Load Forecasting System is a scalable pipeline for 370+ smart meters using SARIMAX with Fourier seasonality. It integrates an LLM-powered n8n workflow for natural language SQL querying. Built as a Columbia course project in 2026.";
+  }
+  if (/elmo|rocksdb|gpt-4|tuning|lsm|hotstorage/.test(t)) {
+    return "ELMo-Tune is a GPT-4–driven framework that autonomously tunes 150+ RocksDB LSM-KVS parameters. It achieved a 20% performance uplift and won the HotStorage 2024 Best Paper Award. GitHub: github.com/asu-idi/ELMo-Tune.";
+  }
+  if (/lora|flan|fine.?tun|summariz/.test(t)) {
+    return "The LLM Fine-Tuning & LoRA Analysis project benchmarks full fine-tuning vs LoRA on FLAN-T5 for summarization. LoRA achieved ~95% parameter reduction. Evaluated with ROUGE-1, ROUGE-2, and ROUGE-L metrics.";
+  }
+  if (/honeywell|emotion|facial|deepface|capstone/.test(t)) {
+    return "The Honeywell Adaptive Announcement System is Kaushiki's undergraduate senior capstone. It uses OpenCV, MTCNN, and DeepFace to detect facial emotions in real-time, then passes context to Gemini for empathetic TTS announcements. Achieved F1: 0.58 on the MELD benchmark.";
+  }
+  if (/spotify|playlist|music/.test(t)) {
+    return "The Spotify Buddy App is a full-stack web app that connects to the Spotify API to analyze playlists from multiple users, finds overlapping tracks, and generates shared collaborative playlists. Built with Python, PostgreSQL, and React.";
+  }
+  if (/asl|sign language|glove|esp32|arduino/.test(t)) {
+    return "Visionary Hands is a wearable ESP32 + Arduino glove that translates American Sign Language to English. Kaushiki served as Software Lead, updating the prototype firmware and debugging the first working translation system. Built for EPICS at ASU.";
+  }
+  if (/ios|swift|event|firebase|mobile/.test(t)) {
+    return "The Event Tracking iOS App was built with Swift + Firebase (MVVM architecture). It supports RSVPs, interactive maps via MapKit, and local timezone display for events. Built for ASU's Women in Computer Science club.";
+  }
+  if (/global.?warm|d3|temperature|climate|data.?viz/.test(t)) {
+    return "Global Warming in Data is an interactive D3.js visualization of temperature trends across 150+ countries from 1900 to 2010. It features animated transitions, dynamic filtering, and color-coded storytelling for non-technical audiences.";
+  }
+  if (/gender|housing|cost burden|census|rent/.test(t)) {
+    return "The Gendered Cost Burden Analysis used U.S. census microdata in R to explore gender-based housing cost disparities. It computed income-to-rent burden ratios and produced ggplot2 visualizations. Live at sneha-jaikumar.github.io/genderedCostBurdenAnalysis/.";
+  }
+
+  // All projects overview — after specific checks so "tell me about Hera" hits the specific block first
+  if (/project|portfolio|built|made|what have you/.test(t)) {
+    return "Kaushiki has 13 projects spanning: LLM/NLP (HouseLLM, LLM Fine-Tuning & LoRA, ToneOp RAG Chatbot), GenAI (Hera — AI Emotional Safety Layer), Data Science (Electricity Forecasting, Gendered Cost Burden Analysis), Computer Vision (Honeywell Adaptive Announcements), iOS/Android apps, D3.js visualizations, Embedded Systems (ASL Glove), and Full-Stack (Spotify Buddy). Visit the Projects section for details!";
+  }
+
+  // Education
+  if (/columbia|master|degree|school|university|asu|arizona|education|study|coursework/.test(t)) {
+    return "Kaushiki holds a BS in Computer Science from Arizona State University (2021–2024) and is currently pursuing an MS in Data Science at Columbia University (2025–2026). Courses include ML for Data Science, GenAI using LLMs, Algorithms for Data Science, Forecasting, and more. Check the About section for full coursework.";
+  }
+
+  // About / who — after all specific topic checks
+  if (/who|about|yourself|bio|background/.test(t)) {
+    return "Kaushiki Singh is an MS Data Science student at Columbia University (Fu Foundation School of Engineering), graduating December 2026. She has a BS in Computer Science from Arizona State University and a background in software engineering. She's passionate about LLMs, responsible AI, and building tools with social impact.";
+  }
+
+  // Location
+  if (/where|location|city|new york|nyc/.test(t)) {
+    return "Kaushiki is currently based in New York, NY while studying at Columbia University.";
+  }
+
+  // Fallback
+  return "I can answer questions about Kaushiki's projects, skills, experience, education, availability, and contact info. Try asking 'Help' to see what I can do, or something like 'What projects has she built?'";
+}
 </script>
 </body>
 </html>
