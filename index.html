@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaushiki Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #639922;
+    --green-light: #97C459;
+    --green-dim: #3B6D11;
+    --green-faint: rgba(99,153,34,0.08);
+    --black: #0e0e0e;
+    --card: #161616;
+    --card2: #1c1c1c;
+    --border: rgba(99,153,34,0.22);
+    --border-bright: rgba(151,196,89,0.45);
+    --text: #efefef;
+    --muted: #aaa;
+    --font-mono: 'Space Mono', 'Share Tech Mono', monospace;
+    --font-body: 'Space Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(14,14,14,0.96);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    color: var(--green-light);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--green-light); }
+
+  /* ── SECTIONS ── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 6rem 2rem 5rem;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .hero-tag::before { content: '> '; }
+
+  .hero-name {
+    font-family: var(--font-mono);
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 0.6rem;
+  }
+  .hero-name .accent { color: var(--green-light); }
+
+  .hero-cursor {
+    display: inline-block;
+    width: 12px;
+    height: 1.1em;
+    background: var(--green-light);
+    vertical-align: middle;
+    margin-left: 6px;
+    animation: blink 1s step-end infinite;
+  }
+
+  .hero-avail {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s ease infinite;
+    flex-shrink: 0;
+  }
+
+  .hero-bio {
+    color: #ccc;
+    font-size: 15px;
+    line-height: 2;
+    max-width: 560px;
+    border-left: 2px solid var(--green-dim);
+    padding-left: 1.4rem;
+    margin-bottom: 2.5rem;
+    font-family: var(--font-mono);
+  }
+
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border: 1px solid var(--green);
+    background: transparent;
+    color: var(--green-light);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 700;
+  }
+  .btn:hover { background: var(--green); color: #000; }
+  .btn.solid { background: var(--green); color: #000; }
+  .btn.solid:hover { background: var(--green-light); border-color: var(--green-light); }
+
+  /* ── INNER LAYOUT ── */
+  .inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 2rem 5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .s-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--green);
+    letter-spacing: 2px;
+    font-weight: 700;
+  }
+
+  .s-title {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .s-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── PROJECT CONTROLS ── */
+  .proj-controls {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+  }
+
+  .proj-search {
+    flex: 1;
+    min-width: 200px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--border-bright);
+    padding: 10px 14px;
+    outline: none;
+    letter-spacing: 0.5px;
+    transition: border-color 0.2s;
+  }
+  .proj-search::placeholder { color: #555; }
+  .proj-search:focus { border-color: var(--green); }
+
+  .proj-cat-select {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--border-bright);
+    padding: 10px 14px;
+    outline: none;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+    padding-right: 32px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2397C459' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+  .proj-cat-select:focus { border-color: var(--green); }
+  .proj-cat-select option { background: #161616; color: var(--text); }
+
+  .proj-no-results {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--muted);
+    padding: 2rem 0;
+    letter-spacing: 1px;
+    display: none;
+  }
+  .proj-no-results.visible { display: block; }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .proj-card {
+    background: var(--card);
+    padding: 1.6rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s;
+  }
+  .proj-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--green);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .proj-card:hover { background: #1e1e1e; }
+  .proj-card:hover::before { transform: scaleX(1); }
+
+  .proj-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+  }
+
+  .proj-title {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 0.6rem;
+  }
+
+  .proj-desc {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 1.1rem;
+  }
+
+  .stack-row { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .stag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 3px 9px;
+    border: 1px solid var(--border-bright);
+    color: var(--green-light);
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+
+  .proj-arrow {
+    position: absolute;
+    bottom: 1.2rem; right: 1.2rem;
+    color: var(--green);
+    font-size: 20px;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .proj-card:hover .proj-arrow { opacity: 1; transform: translate(2px, -2px); }
+
+  .proj-ongoing-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border: 1px solid rgba(220,60,60,0.5);
+    color: #ff6b6b;
+    background: rgba(220,60,60,0.1);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .proj-source-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border: 1px solid rgba(151,196,89,0.5);
+    color: var(--green-light);
+    background: rgba(99,153,34,0.12);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── DETAIL ── */
+  .detail { display: none; border: 1px solid var(--border); padding: 2.5rem; background: var(--card); }
+  .detail.open { display: block; }
+
+  .detail-back {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--green);
+    cursor: pointer;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    background: none;
+    border: none;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .detail-back:hover { color: var(--green-light); }
+
+  .detail-tag { font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; color: var(--green); text-transform: uppercase; margin-bottom: 0.4rem; font-weight: 700; }
+  .detail-title { font-family: var(--font-mono); font-size: 22px; color: #fff; font-weight: 700; line-height: 1.3; margin-bottom: 1rem; }
+
+  .detail-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+  }
+
+  .dmeta-item { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 1px; font-weight: 700; }
+  .dmeta-item span { display: block; color: var(--green-light); margin-top: 2px; font-size: 13px; }
+
+  .detail-label { font-family: var(--font-mono); font-size: 12px; color: var(--green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.6rem; font-weight: 700; }
+
+  .detail-body { font-family: var(--font-mono); font-size: 14px; color: #ccc; line-height: 1.9; margin-bottom: 1.5rem; }
+
+  .detail-stack { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+
+  .detail-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .detail-img {
+    width: 100%;
+    object-fit: contain;
+    border: 1px solid var(--border);
+    display: block;
+  }
+
+  .detail-video-wrap {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 */
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    background: #000;
+  }
+  .detail-video-wrap iframe,
+  .detail-video-wrap video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .detail-links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .detail-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 9px 18px;
+    border: 1px solid var(--green);
+    color: var(--green-light);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .detail-link:hover { background: var(--green); color: #000; }
+
+  .detail-hl { list-style: none; }
+  .detail-hl li {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: #ccc;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    line-height: 1.7;
+  }
+  .detail-hl li::before { content: '→'; color: var(--green); flex-shrink: 0; }
+
+  /* ── EXPERIENCE ── */
+  .exp-block {
+    padding: 1.75rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    margin-bottom: 1.4rem;
+  }
+  .exp-org { font-family: var(--font-mono); font-size: 16px; color: #fff; font-weight: 700; margin-bottom: 3px; }
+  .exp-role { font-family: var(--font-mono); font-size: 14px; color: var(--green-light); margin-bottom: 3px; font-weight: 700; }
+  .exp-meta { font-family: var(--font-mono); font-size: 13px; color: var(--muted); letter-spacing: 1px; margin-bottom: 1rem; }
+  .exp-list { list-style: none; }
+  .exp-list li { font-family: var(--font-mono); font-size: 13px; color: #ccc; padding: 4px 0; display: flex; gap: 10px; line-height: 1.75; }
+  .exp-list li::before { content: '→'; color: var(--green); flex-shrink: 0; }
+
+  .exp-cats { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--border); }
+  .exp-cat-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border: 1px solid var(--green-dim);
+    color: var(--green-light);
+    letter-spacing: 1px;
+    font-weight: 700;
+    background: var(--green-faint);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    text-transform: uppercase;
+  }
+  .exp-cat-tag::before { content: '⌗ '; font-size: 10px; }
+  .exp-cat-tag:hover { background: rgba(99,153,34,0.18); border-color: var(--green-light); }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 230px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  @media (max-width: 700px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .nav { padding: 1rem 1.2rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links a { font-size: 11px; }
+    .inner { padding: 3rem 1.2rem; }
+    .hero { padding: 4rem 1.2rem; }
+    .proj-controls { flex-direction: column; }
+    .proj-cat-select { width: 100%; }
+  }
+
+  .about-photo {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: top center;
+    border: 1px solid var(--border);
+    display: block;
+  }
+
+  .bio-box {
+    margin-top: 1rem;
+    padding: 1.1rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #ccc;
+    line-height: 1.85;
+  }
+  .bio-label { font-size: 12px; color: var(--green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 700; }
+
+  .edu-block { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .edu-school { font-family: var(--font-mono); font-size: 16px; color: #fff; font-weight: 700; margin-bottom: 3px; }
+  .edu-degree { font-family: var(--font-mono); font-size: 14px; color: var(--green-light); font-weight: 700; margin-bottom: 4px; }
+  .edu-year { font-family: var(--font-mono); font-size: 13px; color: var(--muted); letter-spacing: 1px; margin-bottom: 0.8rem; }
+
+  .toggle-btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--green);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .toggle-btn:hover { color: var(--green-light); }
+
+  .courses-list {
+    display: none;
+    margin-top: 0.8rem;
+    padding: 1rem;
+    border-left: 2px solid var(--green-dim);
+    background: var(--green-faint);
+    columns: 2;
+    column-gap: 1rem;
+  }
+  .courses-list.open { display: block; }
+  .courses-list li { font-family: var(--font-mono); font-size: 12px; color: var(--muted); padding: 3px 0; list-style: none; break-inside: avoid; font-weight: 700; line-height: 1.6; }
+  .courses-list li::before { content: '— '; color: var(--green-dim); }
+
+  .skill-section { margin-top: 1.75rem; }
+  .skill-label { font-family: var(--font-mono); font-size: 12px; color: var(--green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.7rem; font-weight: 700; }
+  .skill-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 0.5rem; }
+  .skill-pill { font-family: var(--font-mono); font-size: 11px; padding: 5px 11px; border: 1px solid var(--border); color: var(--muted); letter-spacing: 1px; font-weight: 700; }
+
+  .extras-section { margin-top: 1.75rem; }
+  .extras-label { font-family: var(--font-mono); font-size: 12px; color: var(--green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.7rem; border-top: 1px solid var(--border); padding-top: 1rem; font-weight: 700; }
+  .extras-sub { font-family: var(--font-mono); font-size: 12px; color: var(--green-light); letter-spacing: 1.5px; text-transform: uppercase; margin: 0.8rem 0 0.5rem; font-weight: 700; }
+  .extras-list { list-style: none; }
+  .extras-list li { font-family: var(--font-mono); font-size: 13px; color: var(--muted); padding: 4px 0; display: flex; gap: 8px; font-weight: 700; line-height: 1.7; }
+  .extras-list li::before { content: '◆'; color: var(--green-dim); font-size: 8px; margin-top: 5px; flex-shrink: 0; }
+
+  /* ── CONTACT ── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .contact-item { background: var(--card); padding: 1.4rem 1.6rem; }
+  .contact-lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; color: var(--green); text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
+  .contact-val { font-family: var(--font-mono); font-size: 14px; color: var(--text); font-weight: 700; }
+  .contact-val a { color: var(--text); text-decoration: none; }
+  .contact-val a:hover { color: var(--green-light); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--green-light); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  @keyframes pulse {
+    0%,100%{box-shadow:0 0 0 0 rgba(99,153,34,0.5)}
+    50%{box-shadow:0 0 0 8px rgba(99,153,34,0)}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">[KS]</div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showSection('home')">Home</a></li>
+    <li><a href="#" onclick="showSection('projects')">Projects</a></li>
+    <li><a href="#" onclick="showSection('experience')">Experience</a></li>
+    <li><a href="#" onclick="showSection('about')">About</a></li>
+    <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════════ HOME ════════════════ -->
+<section id="sec-home" class="section active">
+  <div class="hero">
+    <div class="hero-tag">MS Data Science @ Columbia University</div>
+    <h1 class="hero-name">
+      Hi, I'm<br>
+      <span class="accent">Kaushiki Singh</span>
+      <span class="hero-cursor"></span>
+    </h1>
+    <div class="hero-avail"><span class="dot"></span> Available for internships &amp; research</div>
+    <p class="hero-bio">
+      Data Scientist in training with a Software Engineering background. Interested in LLMs and building responsible AI systems. Passionate about solving real world problems.
+    </p>
+    <div class="hero-btns">
+      <button class="btn solid" onclick="showSection('projects')">View Projects</button>
+      <button class="btn" onclick="showSection('about')">About Me</button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PROJECTS ════════════════ -->
+<section id="sec-projects" class="section">
+  <div class="inner">
+    <div class="section-header">
+      <span class="s-num">01</span>
+      <span class="s-title">Projects</span>
+      <div class="s-line"></div>
+    </div>
+
+    <div id="grid-view">
+      <div class="proj-controls">
+        <input
+          type="text"
+          id="projSearch"
+          class="proj-search"
+          placeholder="Search projects by keyword..."
+          oninput="filterProjects()"
+        >
+        <select id="projCategory" class="proj-cat-select" onchange="filterProjects()">
+          <option value="">All Categories</option>
+          <option value="Machine Learning / AI">Machine Learning / AI</option>
+          <option value="Data Science">Data Science</option>
+          <option value="Mobile App Development">Mobile App Development</option>
+          <option value="Full-Stack Development">Full-Stack Development</option>
+          <option value="Embedded Systems">Embedded Systems</option>
+        </select>
+      </div>
+      <div class="proj-no-results" id="noResults">No projects match your search.</div>
+      <div class="projects-grid" id="projGrid"></div>
+    </div>
+
+    <div class="detail" id="projDetail">
+      <button class="detail-back" onclick="closeDetail()">← Back to projects</button>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ EXPERIENCE ════════════════ -->
+<section id="sec-experience" class="section">
+  <div class="inner">
+    <div class="section-header">
+      <span class="s-num">02</span>
+      <span class="s-title">Experience</span>
+      <div class="s-line"></div>
+    </div>
+
+    <div class="exp-block">
+      <div class="exp-org">ToneOp</div>
+      <div class="exp-role">Software Engineer Intern</div>
+      <div class="exp-meta">Mar 2025 – Jul 2025 · Bhopal, IN-MP</div>
+      <ul class="exp-list">
+        <li>Reduced chatbot toxicity by leveraging Hugging Face Transformers for content filtering and hallucination mitigation</li>
+        <li>Automated preprocessing of text chunks with Python (Pandas, NumPy) for downstream ML pipelines</li>
+        <li>Enhanced a RAG chatbot using TinyLLaMA (PyTorch) and FAISS, improving overall conversational reliability</li>
+      </ul>
+      <div class="exp-cats">
+        <span class="exp-cat-tag" onclick="showSection('projects'); filterByCategory('Machine Learning / AI')">Machine Learning / AI</span>
+      </div>
+    </div>
+
+    <div class="exp-block">
+      <div class="exp-org">Intelligent Data Infrastructure Lab — Arizona State University</div>
+      <div class="exp-role">Research Assistant</div>
+      <div class="exp-meta">Dec 2023 – Apr 2024 · Tempe, AZ</div>
+      <ul class="exp-list">
+        <li>Co-built a GPT-4–driven optimization framework for RocksDB, autonomously tuning 150+ LSM-KVS parameters</li>
+        <li>Developed Python scripts (Matplotlib, Pandas) to track performance, enabling faster detection of configuration bottlenecks</li>
+        <li>Conducted tests demonstrating the framework adjusts ~10 configuration options per iteration; 20% performance uplift overall</li>
+        <li>Co-authored a HotStorage 2024 Best Paper Award–winning publication; presented at USENIX FAST '24</li>
+      </ul>
+      <div class="exp-cats">
+        <span class="exp-cat-tag" onclick="showSection('projects'); filterByCategory('Machine Learning / AI')">Machine Learning / AI</span>
+      </div>
+    </div>
+
+    <div class="exp-block">
+      <div class="exp-org">Fluid Touch Pvt. Ltd.</div>
+      <div class="exp-role">Software Engineer Intern — Android App Development</div>
+      <div class="exp-meta">Jun 2023 – Aug 2023 · Hyderabad, IN-TS</div>
+      <ul class="exp-list">
+        <li>Built a sports player information management app using Java and the Stickers plugin of "NoteShelf"</li>
+        <li>Created a responsive frontpage interface to display stickers categorically using Kotlin</li>
+      </ul>
+      <div class="exp-cats">
+        <span class="exp-cat-tag" onclick="showSection('projects'); filterByCategory('Mobile App Development')">Mobile App Development</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ ABOUT ════════════════ -->
+<section id="sec-about" class="section">
+  <div class="inner">
+    <div class="section-header">
+      <span class="s-num">03</span>
+      <span class="s-title">About Me</span>
+      <div class="s-line"></div>
+    </div>
+
+    <div class="about-grid">
+
+      <!-- LEFT COL -->
+      <div>
+        <!-- Columbia -->
+        <div class="edu-block">
+          <div class="edu-school">Columbia University</div>
+          <div class="edu-degree">M.S. Data Science · Fu Foundation School of Engineering</div>
+          <div class="edu-year">August 2025 – December 2026 · New York, NY</div>
+          <button class="toggle-btn" onclick="toggleCourses('ms')">+ View Coursework</button>
+          <ul class="courses-list" id="courses-ms">
+            <li>Machine Learning for Data Science</li>
+            <li>GenAI using LLMs</li>
+            <li>Forecasting</li>
+            <li>Algorithms for Data Science</li>
+            <li>Computer Systems</li>
+            <li>Probability &amp; Statistics for DS</li>
+            <li>Exploratory Data Analysis &amp; Vis</li>
+            <li>Statistical Inference (enrolled for next sem)</li>
+            <li>Elements of Data Science</li>
+          </ul>
+          <button class="toggle-btn" style="margin-top:0.6rem" onclick="toggleExtras('ms')">+ View Extracurriculars</button>
+          <div class="extras-body" id="extras-ms" style="display:none; margin-top:0.8rem;">
+            <ul class="extras-list">
+              <li>Graduate Society of Women Engineers (Member)</li>
+              <li>Columbia Business School × AI Club Hackathon — Participant</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ASU -->
+        <div class="edu-block">
+          <div class="edu-school">Arizona State University</div>
+          <div class="edu-degree">B.S. Computer Science · Ira A. Fulton Schools of Engineering</div>
+          <div class="edu-year">January 2021 – December 2024 · Tempe, AZ</div>
+          <button class="toggle-btn" onclick="toggleCourses('bs')">+ View Coursework</button>
+          <ul class="courses-list" id="courses-bs">
+            <li>Machine Learning Foundations</li>
+            <li>Data Visualization Foundations</li>
+            <li>Mobile Application Development (iOS)</li>
+            <li>Data Structures and Algorithms</li>
+            <li>Database Management</li>
+            <li>Software Testing and QA</li>
+            <li>Intro Human Computer Interaction</li>
+            <li>Applied Linear Algebra</li>
+            <li>Probability &amp; Statistics for Engineering</li>
+            <li>Intro Software Engineering</li>
+            <li>Intro Cybersecurity</li>
+            <li>Operating Systems</li>
+            <li>Computer Organization / Assembly Lang</li>
+            <li>Theoretical Computer Science</li>
+            <li>Principles of Programming (Compiler Design)</li>
+            <li>University Physics 1: Mechanics</li>
+            <li>Calculus for Engineers 1, 2, 3</li>
+            <li>Discrete Mathematics</li>
+            <li>Digital Design Fundamentals (Circuits)</li>
+            <li>Object Oriented Programming</li>
+            <li>Intro to Programming in C/C++</li>
+            <li>Principles of Programming with Java</li>
+          </ul>
+          <button class="toggle-btn" style="margin-top:0.6rem" onclick="toggleExtras('bs')">+ View Extracurriculars</button>
+          <div class="extras-body" id="extras-bs" style="display:none; margin-top:0.8rem;">
+            <ul class="extras-list">
+              <li>Research Assistant — Intelligent Data Infrastructure Lab</li>
+              <li>Women in Computer Science — Treasurer (2023–24), Campus Relations Director (2022–23)</li>
+              <li>Combat Ready Robotics Sundevil Smackdown — 3 lb bot Competition Participant</li>
+              <li>Society of Asian Scientists and Engineers (Member)</li>
+              <li>Software Developers Association (Member)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="skill-section">
+          <div class="skill-label">Technical Skills</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Python</span>
+            <span class="skill-pill">SQL</span>
+            <span class="skill-pill">Java</span>
+            <span class="skill-pill">PyTorch</span>
+            <span class="skill-pill">HuggingFace</span>
+            <span class="skill-pill">LangChain</span>
+            <span class="skill-pill">scikit-learn</span>
+            <span class="skill-pill">Pandas</span>
+            <span class="skill-pill">FAISS</span>
+            <span class="skill-pill">Spark</span>
+            <span class="skill-pill">D3.js</span>
+            <span class="skill-pill">Firebase</span>
+            <span class="skill-pill">PostgreSQL</span>
+            <span class="skill-pill">Git</span>
+            <span class="skill-pill">C++</span>
+            <span class="skill-pill">Linux/Unix</span>
+            <span class="skill-pill">R</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COL — photo + bio -->
+      <div>
+        <img
+          class="about-photo"
+          src="profile_jpg.png"
+          alt="Profile photo"
+          onerror="this.style.display='none'; document.getElementById('photo-placeholder').style.display='flex';"
+        >
+        <div id="photo-placeholder" style="display:none; width:100%; aspect-ratio:3/4; border:1px solid var(--border); background:var(--card); align-items:center; justify-content:center; flex-direction:column; gap:0.5rem; color:var(--muted); font-family:var(--font-mono); font-size:13px; text-align:center; letter-spacing:1px;">
+          <div style="font-size:24px; color:var(--green-dim)">[ ]</div>
+          <div>Add profile_jpg.png<br>to this folder</div>
+        </div>
+
+        <div class="bio-box">
+          <div class="bio-label">Bio</div>
+          MS Data Science student at Columbia University with a CS background from ASU. Passionate about building tools at the intersection of AI and social impact. 
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CONTACT ════════════════ -->
+<section id="sec-contact" class="section">
+  <div class="inner">
+    <div class="section-header">
+      <span class="s-num">04</span>
+      <span class="s-title">Contact</span>
+      <div class="s-line"></div>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="contact-lbl">Email</div>
+        <div class="contact-val"><a href="mailto:ks4402@columbia.edu">ks4402@columbia.edu</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-lbl">LinkedIn</div>
+        <div class="contact-val"><a href="https://linkedin.com/in/kaushikisingh" target="_blank">linkedin.com/in/kaushikisingh</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-lbl">GitHub</div>
+        <div class="contact-val"><a href="https://github.com/cosecE" target="_blank">github.com/cosecE</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-lbl">Location</div>
+        <div class="contact-val">New York, NY</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2025 · Kaushiki Singh · <a href="mailto:ks4402@columbia.edu">ks4402@columbia.edu</a> · <a href="https://github.com/cosecE" target="_blank">GitHub</a> · <a href="https://linkedin.com/in/kaushikisingh" target="_blank">LinkedIn</a></footer>
+
+<script>
+const projects = [
+  {
+    tag:"LLM · NLP", title:"HouseLLM — Constrained LLM Decoding for Medical Reports",
+    category:"Machine Learning / AI",
+    githubUrl:"",
+    siteUrl:"",
+    videoUrl:"",
+    desc:"LLM-based diagnostic tool studying constrained decoding strategies for structured clinical report generation, with hallucination detection metrics.",
+    stack:["Python","PyTorch","Transformers","OpenAI API"],
+    year:"2026", type:"Columbia Course Project", status:"Ongoing",
+    overview:"Built an LLM-based diagnostic tool to generate structured clinical reports and conducted an experimental study on constrained decoding strategies (soft, schema-based, and ontology-restricted). Introduced metrics for hallucination detection and semantic treatment evaluation, revealing trade-offs between factual accuracy and generative flexibility.",
+    highlights:[
+      "Implemented soft, schema-based, and ontology-restricted constrained decoding strategies",
+      "Designed hallucination detection metrics for clinical report evaluation",
+      "Introduced semantic treatment evaluation to assess generative flexibility vs. factual accuracy",
+      "Comparative study of decoding approaches across structured medical report generation"
+    ]
+  },
+  {
+    tag:"NLP · RAG", title:"ToneOp — RAG Chatbot Enhancement",
+    category:"Machine Learning / AI", source:"Industry",
+    desc:"Enhanced a RAG chatbot with TinyLLaMA and FAISS; reduced toxicity via HuggingFace Transformers content filtering and hallucination mitigation.",
+    stack:["Python","PyTorch","TinyLLaMA","FAISS","HuggingFace","Pandas","NumPy"],
+    year:"2025", type:"Industry — ToneOp", status:"Completed",
+    overview:"At ToneOp, improved an existing RAG chatbot pipeline by integrating HuggingFace Transformers for content filtering to reduce toxicity and mitigate hallucinations. Automated text chunk preprocessing with Python and enhanced the core chatbot with TinyLLaMA (PyTorch) and FAISS for more reliable conversational retrieval.",
+    highlights:[
+      "Reduced chatbot toxicity using HuggingFace Transformers content filtering",
+      "Enhanced RAG pipeline with TinyLLaMA (PyTorch) and FAISS vector search",
+      "Automated text preprocessing with Pandas and NumPy for downstream ML pipelines",
+      "Improved overall conversational reliability and hallucination mitigation"
+    ]
+  },
+  {
+    tag:"LLM · Systems", title:"GPT-4 RocksDB Auto-Tuning Framework",
+    category:"Machine Learning / AI", source:"Research",
+    desc:"GPT-4–driven framework autonomously tuning 150+ RocksDB LSM-KVS parameters; achieved 20% performance uplift. HotStorage 2024 Best Paper Award.",
+    stack:["Python","GPT-4","Matplotlib","Pandas","RocksDB"],
+    year:"2024", type:"Research — ASU IDIL", status:"Published",
+    paperUrl:"https://dl.acm.org/doi/10.1145/3655038.3665954",   
+    githubUrl:"https://github.com/asu-idi/ELMo-Tune",  
+    images:["award.jpeg", "together.JPG"],    
+    overview:"Co-built an LLM-driven optimization framework at the Intelligent Data Infrastructure Lab (ASU) that uses GPT-4 to autonomously tune 150+ LSM key-value store parameters in RocksDB. Developed Python-based performance tracking tools and co-authored a paper that won the HotStorage 2024 Best Paper Award, presented at USENIX FAST '24.",
+    highlights:[
+      "GPT-4–driven framework autonomously tuning 150+ LSM-KVS configuration parameters",
+      "Framework adjusts ~10 options per iteration with measurable convergence",
+      "20% overall performance uplift demonstrated across benchmark tests",
+      "Co-authored HotStorage 2024 Best Paper Award–winning publication",
+      "Presented at USENIX FAST '24"
+    ]
+  },
+  {
+    tag:"GenAI · NLP", title:"Hera — AI Emotional Safety Layer",
+    category:"Machine Learning / AI",
+    videoUrl:"hera.mp4",
+    githubUrl:"https://github.com/cosecE/hera",   
+    siteUrl:"https://hera-ai.streamlit.app/",     
+    desc:"Python + Streamlit platform transforming digital behavioral signals into empathetic conversation guidance for parents.",
+    stack:["Python","Streamlit","Claude API","White Circle API","LLM"],
+    year:"2026", type:"Hackathon — CBS AI Club", status:"Completed",
+    overview:"Built at the Columbia Business School AI Club Hackathon. Hera ingests behavioral trend data and uses Claude + White Circle API to generate context-aware conversation scripts, helping parents navigate sensitive topics with their children.",
+    highlights:[
+      "Built end-to-end Python + Streamlit platform in a hackathon setting",
+      "Integrated Claude and White Circle API for context-aware script generation",
+      "Engineered tone classification + LLM-based rewriting to prevent conversational escalation",
+      "Transformed raw behavioral signals into empathetic parent coaching guidance"
+    ]
+  },
+  {
+    tag:"NLP · LLM", title:"LLM Fine-Tuning & LoRA Analysis",
+    category:"Machine Learning / AI",
+    desc:"Fine-tuned FLAN-T5 for summarization; compared full fine-tuning vs LoRA with ~95% parameter reduction.",
+    stack:["Python","PyTorch","HuggingFace","ROUGE","FLAN-T5","LoRA"],
+    year:"2026", type:"Columbia Course Project", status:"Completed",
+    overview:"Implemented and benchmarked two fine-tuning paradigms — full fine-tuning and LoRA — on FLAN-T5 for text summarization. Evaluated using ROUGE metrics and analyzed performance-efficiency trade-offs.",
+    highlights:[
+      "Fine-tuned FLAN-T5 on summarization task using HuggingFace Transformers",
+      "Implemented LoRA adapters achieving ~95% parameter reduction vs full fine-tuning",
+      "Evaluated with ROUGE-1, ROUGE-2, and ROUGE-L metrics",
+      "Analyzed performance-efficiency trade-offs across compute budgets"
+    ]
+  },
+  {
+    tag:"Time Series", title:"Electricity Load Forecasting System",
+    category:"Data Science",
+    desc:"Scalable forecasting pipeline for 370+ meters with Fourier seasonality, SARIMAX, and LLM-powered SQL querying.",
+    stack:["Python","SARIMAX","n8n","Fourier Features","LLM","SQL"],
+    year:"2026", type:"Columbia Course Project", status:"Completed",
+    overview:"Built a production-style time-series pipeline to forecast electricity load across 370+ meters. Combined SARIMAX with Fourier seasonality and autoregressive features, and integrated an LLM workflow enabling natural language querying via SQL.",
+    highlights:[
+      "Scalable pipeline handling 370+ smart meters end-to-end",
+      "SARIMAX model with Fourier seasonality and autoregressive features",
+      "Integrated n8n LLM workflow for natural language querying via SQL",
+      "Designed for extensibility across different grid regions"
+    ]
+  },
+  {
+    tag:"Stats · EDA", title:"Gendered Cost Burden Analysis",
+    category:"Data Science",
+    siteUrl:"https://sneha-jaikumar.github.io/genderedCostBurdenAnalysis/",
+    githubUrl:"https://github.com/sneha-jaikumar/genderedCostBurdenAnalysis",
+    desc:"Gender-based housing cost burden analysis using census data with R, surfacing income-to-rent disparities.",
+    stack:["R","ggplot2","EDA","Census Data"],
+    year:"2025", type:"Columbia Course Project", status:"Completed",
+    overview:"Analyzed gender-based housing cost burden using U.S. census microdata. Built data cleaning pipelines in R, engineered income-to-rent burden ratios, and produced visualizations highlighting systemic disparities.",
+    highlights:[
+      "Sourced and cleaned U.S. census microdata with R pipelines",
+      "Computed income-to-rent burden ratios across gender and income brackets",
+      "Built ggplot2 visualizations to communicate disparity patterns",
+      "Identified intersectional patterns between gender, income, and housing cost"
+    ]
+  },
+  {
+    tag:"Computer Vision", title:"Honeywell Adaptive Announcement System",
+    category:"Machine Learning / AI",
+    images:["capstoneug.jpg"],
+    githubUrl:"https://github.com/JamesTRoss1/SeniorCapstone",
+    desc:"Real-time facial emotion detector using OpenCV, MTCNN, and DeepFace with Gemini TTS; F1: 0.58 on MELD benchmark.",
+    stack:["Python","OpenCV","MTCNN","DeepFace","Gemini","TTS","MELD"],
+    year:"2024", type:"Undergraduate Senior Capstone", status:"Completed",
+    overview:"Developed a real-time facial emotion detection system for Honeywell's adaptive announcement use case. Processes live and pre-recorded video, identifies emotional state via MTCNN + DeepFace, and passes context to Gemini for empathetic TTS output.",
+    highlights:[
+      "Real-time facial emotion detection using OpenCV and MTCNN",
+      "Integrated DeepFace with Gemini API for emotion-conditioned TTS announcements",
+      "Evaluated on MELD benchmark — achieved F1: 0.58",
+      "Handles both live camera feed and pre-recorded video input"
+    ]
+  },
+  {
+    tag:"Data Viz", title:"Global Warming in Data",
+    category:"Data Science",
+    desc:"Interactive D3.js visualization of global temperature trends (1900–2010) across 150+ countries with animated transitions.",
+    stack:["D3.js","JavaScript","HTML","CSS"],
+    year:"2024", type:"ASU Course Project", status:"Completed",
+    overview:"Built a fully interactive data visualization exploring 110 years of global temperature trends across 150+ countries. Features dynamic filtering, tooltips, animated transitions, and color-coded storytelling.",
+    highlights:[
+      "Interactive D3.js chart covering 150+ countries, 1900–2010",
+      "Dynamic filtering, animated transitions, and tooltip overlays",
+      "Color-coded temperature storytelling with adaptive axes",
+      "Designed for non-technical audiences to explore climate narratives"
+    ]
+  },
+  {
+    tag:"iOS · Mobile", title:"Event Tracking iOS App",
+    category:"Mobile App Development",
+    githubUrl:"https://github.com/cosecE/WiCS-App",
+    desc:"Swift + Firebase mobile app with RSVP functionality, integrated maps, and local time display for event locations.",
+    stack:["Swift","Firebase","MVVM","MapKit","iOS"],
+    year:"2024", type:"ASU Course Project", status:"Completed",
+    overview:"Developed a full-featured iOS event tracking app using Swift and Firebase with MVVM architecture. Users can browse events, RSVP, view locations on maps, and see local time for each event.",
+    highlights:[
+      "RSVP and event management with Firebase real-time database",
+      "Integrated MapKit to display event locations on interactive map",
+      "Local timezone display for each event location",
+      "MVVM architecture for clean separation of concerns"
+    ]
+  },
+  {
+    tag:"Embedded · Hardware", title:"Visionary Hands — ASL Translation Glove",
+    category:"Embedded Systems",
+    desc:"ESP32 + Arduino glove that translates American Sign Language to English. Served as Software Lead, testing and debugging the first prototype.",
+    stack:["ESP32","Arduino","C++"],
+    year:"2023", type:"ASU Course Project", status:"Completed",
+    overview:"Built as part of Engineering Projects in Community Service (EPICS), Visionary Hands is a wearable glove that uses ESP32 and Arduino to detect hand gestures and translate American Sign Language into English. Contributed as a Software Lead, responsible for updating the prototype firmware and debugging the first working version of the translation system.",
+    highlights:[
+      "Used ESP32 and Arduino to update the prototype for a glove that translates ASL to English",
+      "Served as Software Lead — tested and debugged the first prototype's firmware",
+      "Built for community service impact, enabling communication accessibility"
+    ]
+  },
+  {
+    tag:"Full-Stack", title:"Spotify Buddy App",
+    category:"Full-Stack Development",
+    desc:"Full-stack app to analyze Spotify playlists, find overlapping tracks, and generate shared playlists for friend groups.",
+    stack:["PostgreSQL","Spotify API","Full-Stack","Python"],
+    year:"2023", type:"ASU Course Project", status:"Completed",
+    overview:"Built a full-stack web application connecting to the Spotify API to analyze playlists from multiple users, identify overlapping tracks, and generate a shared collaborative playlist.",
+    highlights:[
+      "Integrated Spotify API for playlist data retrieval and analysis",
+      "Algorithm to identify overlapping tracks across multiple users",
+      "Auto-generated shared playlists saved back to Spotify",
+      "Integrated PostgreSQL to store and query over 500+ unique songs and used React to deliver a dynamic, responsive UI. "
+    ]
+  },
+  {
+    tag:"Android · Mobile", title:"Android App Development",
+    category:"Mobile App Development", source:"Industry",
+    desc:"Fluid Touch's NoteShelf Stickers plugin. Sports player information management Android app built with Java and Kotlin for learning fundamentals.",
+    stack:["Java","Kotlin","Android"],
+    year:"2023", type:"Industry — Fluid Touch", status:"Completed",
+    overview:"Developed the Stickers plugin of company’s flagship product, “NoteShelf,” to manage user experience life cycle. Created a responsive front-page interface in Kotlin to display sticker content categorically. Built a sports player information management application using Java.",
+    highlights:[
+      "Built sports player information management app using Java and the NoteShelf Stickers plugin",
+      "Created responsive frontpage interface to display stickers categorically using Kotlin",
+      "Delivered as part of an internship at Fluid Touch, Hyderabad"
+    ]
+  }
+];
+
+function getFilteredProjects() {
+  const query = (document.getElementById('projSearch').value || '').toLowerCase();
+  const cat   = document.getElementById('projCategory').value;
+  return projects.filter((p, i) => {
+    const matchesCat = !cat || p.category === cat;
+    if (!matchesCat) return false;
+    if (!query) return true;
+    const haystack = [p.title, p.desc, p.tag, p.category, ...p.stack, p.type, p.overview, ...p.highlights]
+      .join(' ').toLowerCase();
+    return haystack.includes(query);
+  });
+}
+
+function filterProjects() {
+  const filtered = getFilteredProjects();
+  const grid     = document.getElementById('projGrid');
+  const noRes    = document.getElementById('noResults');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    noRes.classList.add('visible');
+  } else {
+    noRes.classList.remove('visible');
+    grid.innerHTML = filtered.map(p => {
+      const i = projects.indexOf(p);
+      return `
+        <div class="proj-card" onclick="openProject(${i})">
+          ${p.status === 'Ongoing' ? `<div class="proj-ongoing-badge">Ongoing</div>` : ''}
+          ${p.source ? `<div class="proj-source-badge">${p.source}</div>` : ''}
+          <div class="proj-tag">${p.tag}</div>
+          <div class="proj-title">${p.title}</div>
+          <div class="proj-desc">${p.desc}</div>
+          <div class="stack-row">${p.stack.map(s => `<span class="stag">${s}</span>`).join('')}</div>
+          <div class="proj-arrow">↗</div>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+function renderProjects() {
+  // Reset controls when re-entering the section
+  document.getElementById('projSearch').value = '';
+  document.getElementById('projCategory').value = '';
+  filterProjects();
+}
+
+function openProject(i) {
+  const p = projects[i];
+  document.getElementById('grid-view').style.display = 'none';
+  const d = document.getElementById('projDetail');
+  d.classList.add('open');
+  document.getElementById('detailBody').innerHTML = `
+    ${p.source ? `<div class="proj-source-badge" style="margin-bottom:0.8rem">${p.source}</div>` : ''}
+    <div class="detail-tag">${p.tag} · ${p.type}</div>
+    <div class="detail-title">${p.title}</div>
+    <div class="detail-meta">
+      <div class="dmeta-item">Year<span>${p.year}</span></div>
+      <div class="dmeta-item">Status<span>${p.status}</span></div>
+      <div class="dmeta-item">Type<span>${p.type}</span></div>
+      <div class="dmeta-item">Category<span>${p.category}</span></div>
+    </div>
+    <div class="detail-label">Overview</div>
+    <div class="detail-body">${p.overview}</div>
+    <div class="detail-label">Stack</div>
+    <div class="detail-stack">${p.stack.map(s => `<span class="stag">${s}</span>`).join('')}</div>
+    <div class="detail-label">Highlights</div>
+    <ul class="detail-hl">${p.highlights.map(h => `<li>${h}</li>`).join('')}</ul>
+    ${p.videoUrl ? `
+    <div class="detail-label" style="margin-top:1.5rem">Demo Video</div>
+    <div class="detail-video-wrap">
+      ${p.videoUrl.includes('youtube.com') || p.videoUrl.includes('youtu.be')
+        ? `<iframe src="${p.videoUrl}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>`
+        : `<video src="${p.videoUrl}" controls></video>`
+      }
+    </div>` : ''}
+    ${(p.images && p.images.length) ? `
+    <div class="detail-label" style="margin-top:1.5rem">Images</div>
+    <div class="detail-images">
+      ${p.images.map(src => `<img class="detail-img" src="${src}" alt="">`).join('')}
+    </div>` : ''}
+    ${(p.paperUrl || p.githubUrl || p.siteUrl) ? `
+    <div class="detail-label" style="margin-top:1.5rem">Links</div>
+    <div class="detail-links">
+      ${p.paperUrl ? `<a class="detail-link" href="${p.paperUrl}" target="_blank">📄 Paper</a>` : ''}
+      ${p.githubUrl ? `<a class="detail-link" href="${p.githubUrl}" target="_blank">⌥ GitHub</a>` : ''}
+      ${p.siteUrl  ? `<a class="detail-link" href="${p.siteUrl}"  target="_blank">▶ Live App</a>` : ''}
+    </div>` : ''}
+  `;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeDetail() {
+  document.getElementById('grid-view').style.display = 'block';
+  const d = document.getElementById('projDetail');
+  d.classList.remove('open');
+}
+
+function filterByCategory(cat) {
+  document.getElementById('projCategory').value = cat;
+  document.getElementById('projSearch').value = '';
+  filterProjects();
+}
+
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  if (name === 'projects') renderProjects();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  return false;
+}
+
+function toggleCourses(deg) {
+  const el  = document.getElementById('courses-' + deg);
+  const btn = el.previousElementSibling;
+  el.classList.toggle('open');
+  btn.textContent = el.classList.contains('open') ? '− Hide Coursework' : '+ View Coursework';
+}
+
+function toggleExtras(deg) {
+  const el  = document.getElementById('extras-' + deg);
+  const btn = el.previousElementSibling;
+  const open = el.style.display === 'none';
+  el.style.display = open ? 'block' : 'none';
+  btn.textContent = open ? '− Hide Extracurriculars' : '+ View Extracurriculars';
+}
+
+// init
+renderProjects();
+</script>
+</body>
+</html>
