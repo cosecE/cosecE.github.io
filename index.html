@@ -857,7 +857,7 @@
       <span class="accent">Kaushiki Singh</span>
       <span class="hero-cursor"></span>
     </h1>
-    <div class="hero-avail"><span class="dot"></span> Available for summer internships &amp; research · May 15 – Aug 30</div>
+    <div class="hero-avail"><span class="dot"></span> Available for summer internships · May 15 – Aug 30</div>
     <p class="hero-bio">
       Data Scientist in training with a Software Engineering background. Interested in LLMs and building responsible AI systems. Passionate about solving real world problems.
     </p>
@@ -1220,6 +1220,25 @@ const projects = [
       "Implemented LoRA adapters achieving ~95% parameter reduction vs full fine-tuning",
       "Evaluated with ROUGE-1, ROUGE-2, and ROUGE-L metrics",
       "Analyzed performance-efficiency trade-offs across compute budgets"
+    ]
+  },
+  {
+    tag:"Audio · LLM", title:"Speech Emotion Classification - Wav2Vec2 Fine-Tuning",
+    category:"Machine Learning / AI",
+    videoUrl:"",
+    images:[],
+    siteUrl:"",
+    githubUrl:"",
+    desc:"Compared frozen Wav2Vec2 feature extraction vs. full fine-tuning for emotion classification on RAVDESS; evaluated with accuracy and macro F1.",
+    stack:["Python","PyTorch","Wav2Vec2","HuggingFace","Streamlit","RAVDESS"],
+    year:"2026", type:"Columbia ADI club project", status:"Completed",
+    overview:"Built a speech emotion classification system using the RAVDESS dataset (1440 files, 24 professional actors). Evaluated two paradigms: (1) frozen Wav2Vec2 as a feature extractor with a lightweight classifier on top, and (2) end-to-end fine-tuning of Wav2Vec2 weights on the emotion classification task. A Streamlit app provides an interactive interface for real-time inference. Emotions classified: calm, happy, sad, angry, fearful, surprise, disgust, and neutral.",
+    highlights:[
+      "Parsed and preprocessed 1440 RAVDESS audio files; mapped filename codes to 8 emotion classes",
+      "Extracted pooled Wav2Vec2 embeddings as frozen features and trained an MLP classifier baseline",
+      "Fine-tuned full Wav2Vec2 model end-to-end, adapting pretrained weights to emotion classification",
+      "Evaluated both approaches with accuracy and macro F1 score to quantify fine-tuning impact",
+      "Built Streamlit UI for interactive inference and side-by-side model comparison"
     ]
   },
   {
@@ -1738,7 +1757,7 @@ function getReply(q) {
 
   // Navigation help
   if (/navigate|navigation|how.*(use|work|site|website|page)|sections|menu|tabs|go to/.test(t)) {
-    return "This site has 5 sections accessible from the top nav bar: Home (intro & overview), Projects (13 projects with search & category filter), Experience (internships & research roles), About (education, coursework, skills), and Contact (email, LinkedIn, GitHub). Click any nav link to jump to that section. On the Projects page you can search by keyword or filter by category.";
+    return "This site has 5 sections accessible from the top nav bar: Home (intro & overview), Projects (14 projects with search & category filter), Experience (internships & research roles), About (education, coursework, skills), and Contact (email, LinkedIn, GitHub). Click any nav link to jump to that section. On the Projects page you can search by keyword or filter by category.";
   }
 
   // How to ask / what can you do
@@ -1787,6 +1806,9 @@ function getReply(q) {
   if (/lora|flan|fine.?tun|summariz/.test(t)) {
     return "The LLM Fine-Tuning & LoRA Analysis project benchmarks full fine-tuning vs LoRA on FLAN-T5 for summarization. LoRA achieved ~95% parameter reduction. Evaluated with ROUGE-1, ROUGE-2, and ROUGE-L metrics.";
   }
+  if (/wav2vec|ravdess|speech.*emot|emot.*speech|audio.*classif|classif.*audio|speech.*classif/.test(t)) {
+    return "The Speech Emotion Classification project uses the RAVDESS dataset (1440 files, 24 actors) to classify 8 emotions: calm, happy, sad, angry, fearful, surprise, disgust, and neutral. It compares two approaches — frozen Wav2Vec2 as a feature extractor with a lightweight classifier, vs. full end-to-end fine-tuning — evaluated by accuracy and macro F1. A Streamlit app provides an interactive inference interface. Built as a Columbia course project in 2026.";
+  }
   if (/honeywell|emotion|facial|deepface|capstone/.test(t)) {
     return "The Honeywell Adaptive Announcement System is Kaushiki's undergraduate senior capstone. It uses OpenCV, MTCNN, and DeepFace to detect facial emotions in real-time, then passes context to Gemini for empathetic TTS announcements. Achieved F1: 0.58 on the MELD benchmark.";
   }
@@ -1808,7 +1830,7 @@ function getReply(q) {
 
   // All projects overview — after specific checks so "tell me about Hera" hits the specific block first
   if (/project|portfolio|built|made|what have you/.test(t)) {
-    return "Kaushiki has 13 projects spanning: LLM/NLP (HouseLLM, LLM Fine-Tuning & LoRA, ToneOp RAG Chatbot), GenAI (Hera — AI Emotional Safety Layer), Data Science (Electricity Forecasting, Gendered Cost Burden Analysis), Computer Vision (Honeywell Adaptive Announcements), iOS/Android apps, D3.js visualizations, Embedded Systems (ASL Glove), and Full-Stack (Spotify Buddy). Visit the Projects section for details!";
+    return "Kaushiki has 14 projects spanning: LLM/NLP (HouseLLM, LLM Fine-Tuning & LoRA, ToneOp RAG Chatbot), GenAI (Hera — AI Emotional Safety Layer), Audio ML (Speech Emotion Classification with Wav2Vec2), Data Science (Electricity Forecasting, Gendered Cost Burden Analysis), Computer Vision (Honeywell Adaptive Announcements), iOS/Android apps, D3.js visualizations, Embedded Systems (ASL Glove), and Full-Stack (Spotify Buddy). Visit the Projects section for details!";
   }
 
   // Education
