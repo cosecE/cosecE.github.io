@@ -1069,7 +1069,7 @@
       <div>
         <img
           class="about-photo"
-          src="profile_jpg.png"
+          src="media/profile_jpg.png"
           alt="Profile photo"
           onerror="this.style.display='none'; document.getElementById('photo-placeholder').style.display='flex';"
         >
@@ -1181,7 +1181,7 @@ const projects = [
     year:"2024", type:"Research — ASU IDIL", status:"Published",
     paperUrl:"https://dl.acm.org/doi/10.1145/3655038.3665954",   
     githubUrl:"https://github.com/asu-idi/ELMo-Tune",  
-    images:["award.jpeg", "together.JPG"],    
+    images:["media/award.jpeg", "media/together.JPG"],    
     overview:"Co-built an LLM-driven optimization framework at the Intelligent Data Infrastructure Lab (ASU) that uses GPT-4 to autonomously tune 150+ LSM key-value store parameters in RocksDB. Developed Python-based performance tracking tools and co-authored a paper that won the HotStorage 2024 Best Paper Award, presented at USENIX FAST '24.",
     highlights:[
       "GPT-4–driven framework autonomously tuning 150+ LSM-KVS configuration parameters",
@@ -1226,7 +1226,7 @@ const projects = [
     tag:"Audio · LLM", title:"Speech Emotion Classification - Wav2Vec2 Fine-Tuning",
     category:"Machine Learning / AI",
     videoUrl:"",
-    images:["vibecheck.png", "em.png"],
+    images:["media/vibecheck .png", "media/em.png"],
     siteUrl:"https://alisazheng-vibecheck.hf.space/",
     githubUrl:"https://github.com/cosecE/VibeCheck",
     desc:"Compared frozen Wav2Vec2 feature extraction vs. full fine-tuning for emotion classification on RAVDESS; evaluated with accuracy and macro F1.",
@@ -1245,8 +1245,8 @@ const projects = [
     tag:"Time Series", title:"Electricity Load Forecasting System",
     category:"Data Science",
     githubUrl:"https://github.com/cosecE/electricity-forecasting-n8n",
-    videoUrl:"electricity.mp4",
-    images:["sarimax.png"],
+    videoUrl:"media/electricity.mp4",
+    images:["media/sarimax.png"],
     desc:"Scalable forecasting pipeline for 370+ meters with Fourier seasonality, SARIMAX, and LLM-powered SQL querying.",
     stack:["Python","SARIMAX","n8n","Fourier Features","LLM","SQL"],
     year:"2026", type:"Columbia Course Project", status:"Completed",
@@ -1256,6 +1256,24 @@ const projects = [
       "SARIMAX model with Fourier seasonality and autoregressive features",
       "Integrated n8n LLM workflow for natural language querying via SQL",
       "Designed for extensibility across different grid regions"
+    ]
+  },
+  {
+    tag:"Time Series · Agentic AI", title:"Retail AI Agent — DBSCAN Clustering & Prophet Forecasting",
+    category:"Data Science",
+    githubUrl:"https://github.com/cosecE/online-retail-n8n-forecasting",
+    images:["media/retail_ai.png"],
+    desc:"End-to-end agentic AI system combining DBSCAN semantic clustering, Prophet demand forecasting, and an LLM-powered n8n workflow for natural language SQL querying on retail data.",
+    stack:["Python","Prophet","DBSCAN","UMAP","sentence-transformers","n8n","MySQL","Gemini","scikit-learn","pandas"],
+    year:"2026", type:"Columbia Course Project", status:"Completed",
+    overview:"Built an end-to-end retail demand forecasting system as part of a team project. Applied DBSCAN on sentence-transformer embeddings (all-MiniLM-L6-v2) with UMAP reduction to cluster 142 products from the UCI Online Retail II dataset into 5 semantically coherent groups. Fitted feature-enriched Prophet models per cluster — augmented with lag features (1, 7, 14, 28 days), rolling statistics (7/14/28-day windows), and day-of-week regressors — achieving validation SMAPE of 19.25%–34.85% vs. the inherited project's 20%–53.71% across 23 clusters. Integrated the forecasting outputs into an n8n agentic workflow where Gemini translates natural language queries into SQL, retrieves historical or predicted demand from MySQL, and returns business-friendly insights.",
+    highlights:[
+      "n8n agentic pipeline: chat trigger → Gemini LLM (intent + SQL generation) → MySQL execution → LLM interpretation → insight",
+      "Intelligent query routing — agent distinguishes historical vs. forecasting intent and targets the correct table automatically",
+      "Agent joins sales, product_clusters, and forecasts to answer questions like 'which cluster leads revenue?' or 'predict demand next week'",
+      "Forecasting backend: DBSCAN on sentence-transformer embeddings produced 5 semantic product clusters (silhouette: 0.7536)",
+      "Prophet models per cluster with lag and rolling features achieved validation SMAPE 19.25%–34.85% across all segments",
+      "End-to-end system bridges descriptive analytics and predictive modeling through a single natural language interface"
     ]
   },
   {
@@ -1277,7 +1295,7 @@ const projects = [
   {
     tag:"Computer Vision", title:"Honeywell Adaptive Announcement System",
     category:"Machine Learning / AI",
-    images:["capstoneug.jpg"],
+    images:["media/capstoneug.jpg"],
     githubUrl:"https://github.com/JamesTRoss1/SeniorCapstone",
     desc:"Real-time facial emotion detector using OpenCV, MTCNN, and DeepFace with Gemini TTS; F1: 0.58 on MELD benchmark.",
     stack:["Python","OpenCV","MTCNN","DeepFace","Gemini","TTS","MELD"],
@@ -1757,7 +1775,7 @@ function getReply(q) {
 
   // Navigation help
   if (/navigate|navigation|how.*(use|work|site|website|page)|sections|menu|tabs|go to/.test(t)) {
-    return "This site has 5 sections accessible from the top nav bar: Home (intro & overview), Projects (14 projects with search & category filter), Experience (internships & research roles), About (education, coursework, skills), and Contact (email, LinkedIn, GitHub). Click any nav link to jump to that section. On the Projects page you can search by keyword or filter by category.";
+    return "This site has 5 sections accessible from the top nav bar: Home (intro & overview), Projects (15 projects with search & category filter), Experience (internships & research roles), About (education, coursework, skills), and Contact (email, LinkedIn, GitHub). Click any nav link to jump to that section. On the Projects page you can search by keyword or filter by category.";
   }
 
   // How to ask / what can you do
@@ -1799,6 +1817,8 @@ function getReply(q) {
   }
   if (/electricity|forecast|sarimax|load/.test(t)) {
     return "The Electricity Load Forecasting System is a scalable pipeline for 370+ smart meters using SARIMAX with Fourier seasonality. It integrates an LLM-powered n8n workflow for natural language SQL querying. Built as a Columbia course project in 2026.";
+  if (/retail|dbscan|prophet|forecasting|n8n|cluster|zak attack|online retail/.test(t))
+    return "The Retail AI Agent project combines DBSCAN semantic product clustering (5 clusters via sentence-transformer embeddings + UMAP) with feature-enriched Prophet time-series forecasting on the UCI Online Retail II dataset (142 products). It achieves validation SMAPE of 19.25%–34.85%, improving on the inherited team's 20%–53.71% range. An n8n agentic workflow powered by Gemini converts natural language queries to SQL against a MySQL database for real-time business insights. Built in 2026 as a Columbia course project with team ZAK Attack.";
   }
   if (/elmo|rocksdb|gpt-4|tuning|lsm|hotstorage/.test(t)) {
     return "ELMo-Tune is a GPT-4–driven framework that autonomously tunes 150+ RocksDB LSM-KVS parameters. It achieved a 20% performance uplift and won the HotStorage 2024 Best Paper Award. GitHub: github.com/asu-idi/ELMo-Tune.";
@@ -1830,7 +1850,7 @@ function getReply(q) {
 
   // All projects overview — after specific checks so "tell me about Hera" hits the specific block first
   if (/project|portfolio|built|made|what have you/.test(t)) {
-    return "Kaushiki has 14 projects spanning: LLM/NLP (HouseLLM, LLM Fine-Tuning & LoRA, ToneOp RAG Chatbot), GenAI (Hera — AI Emotional Safety Layer), Audio ML (Speech Emotion Classification with Wav2Vec2), Data Science (Electricity Forecasting, Gendered Cost Burden Analysis), Computer Vision (Honeywell Adaptive Announcements), iOS/Android apps, D3.js visualizations, Embedded Systems (ASL Glove), and Full-Stack (Spotify Buddy). Visit the Projects section for details!";
+    return "Kaushiki has 15 projects spanning: LLM/NLP (HouseLLM, LLM Fine-Tuning & LoRA, ToneOp RAG Chatbot), GenAI (Hera — AI Emotional Safety Layer), Audio ML (Speech Emotion Classification with Wav2Vec2), Data Science (Electricity Forecasting, Retail AI Agent — DBSCAN + Prophet + n8n, Gendered Cost Burden Analysis), Computer Vision (Honeywell Adaptive Announcements), iOS/Android apps, D3.js visualizations, Embedded Systems (ASL Glove), and Full-Stack (Spotify Buddy). Visit the Projects section for details!";
   }
 
   // Education
